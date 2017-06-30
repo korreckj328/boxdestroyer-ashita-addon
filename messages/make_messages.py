@@ -1,3 +1,4 @@
+# Python 3
 import array
 import os
 import struct
@@ -57,27 +58,20 @@ def search_dialog(zones, search):
         offsets, data = decipher_dialog(find_dat(dat_id))
         for i in range(len(offsets) - 1):
             message = data[offsets[i]:offsets[i+1]]
-            for name, string in search.items():
-                if message == string:
-                    if messages.get(zone_id) is None:
-                        messages[zone_id] = {name: i}
-                    else:
-                        messages[zone_id][name] = i
+            if message == search:
+                messages[zone_id] = str(i)
     return messages
 
 def write_lua(messages):
     o = open('messages.lua', 'w')
-    print('messages = {}', file=o)
+    print('messages = { -- These dialogue IDs match "You were unable to enter a combination" for the associated zone IDs', file=o)
     zone_ids = list(messages.keys())
     zone_ids.sort()
     for zone_id in zone_ids:
-        line = []
-        names = list(messages[zone_id].keys())
-        names.sort()
-        for name in names:
-            line.append('{}={}'.format(name, messages[zone_id][name]))
-        line = ', '.join(line)
-        print("messages[{}] = {{{}}}".format(zone_id, line), file=o)
+        line = messages[zone_id]+','
+        print("    [{}] = {}".format(zone_id, line), file=o)
+    print('}',file=o)
+    print('offsets = {greater_less=1, failure=2, success=4, second_even_odd=5, first_even_odd=6, range=7, less=8, greater=9, equal=10, second_multiple=11, first_multiple=12}',file=o)
     o.close()
 
 write_lua(search_dialog(zones, search))
