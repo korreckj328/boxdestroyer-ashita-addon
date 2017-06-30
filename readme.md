@@ -8,4 +8,7 @@ With this addon loaded, just click on any brown treasure casket and it
 will display info about possible combinations, the best number to guess
 and the worst case chance of guessing correctly.
 
-
+### Usage
+Use `/addon load boxdestroyer` to enable.
+Alternatively, add `/addon load boxdestroyer` to `Default.txt` under Ashita's `scripts` directory.
+Unload using `/addon unload boxdestroyer`.
