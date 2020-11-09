@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 _addon.name = 'boxdestroyer'
 _addon.version = '1.0.0'
 _addon.command = 'boxdestroyer'
-_addon.author = 'Zechs6437 (Maarek@Fenrir) (original by Seth VanHeulen (Acacia@Odin))'
+_addon.author = 'Zechs6437 (Maarek@Fenrir) (original by Seth VanHeulen (Acacia@Odin)) updated by korrreckj328'
 
 -- modules
 
@@ -56,9 +56,17 @@ default = {
     90, 91, 92, 93, 94, 95, 96, 97, 98, 99
 }
 
+range_mods = {
+    [1022] = 8,
+    [1023] = 6,
+    [1115] = 4
+}
+
 -- global variables
 
 box = {}
+range = {}
+zone_id = AshitaCore:GetDataManager():GetParty():GetMemberZone(0)
 
 -- filter helper functions
 
@@ -106,17 +114,20 @@ end
 function display(id, chances)
     if #box[id] == 90 then
         --windower.add_to_chat(207, 'possible combinations: 10~99')
-		AshitaCore:GetChatManager():AddChatMessage(207, 'possible combinations: 10~99')
+		--AshitaCore:GetChatManager():AddChatMessage(207, 'possible combinations: 10~99')
+        print('\31\207possible combinations: 10~99')
     else
         --windower.add_to_chat(207, 'possible combinations: ' .. table.concat(box[id], ' '))
-		AshitaCore:GetChatManager():AddChatMessage(207, 'possible combinations: ' .. table.concat(box[id], ' '))
+		--AshitaCore:GetChatManager():AddChatMessage(207, 'possible combinations: ' .. table.concat(box[id], ' '))
+        print('\31\207possible combinations: ' .. table.concat(box[id], ' '))
     end
     local remaining = math.floor(#box[id] / math.pow(2, (chances - 1)))
     if remaining == 0 then
         remaining = 1
     end
     --windower.add_to_chat(207, 'best guess: %d (%d%%)':format(box[id][math.ceil(#box[id] / 2)], 1 / remaining * 100))
-	AshitaCore:GetChatManager():AddChatMessage(207, string.format('best guess: %s (%s%%)', box[id][math.ceil(#box[id] / 2)], 1 / remaining * 100))
+	--AshitaCore:GetChatManager():AddChatMessage(207, string.format('best guess: %s (%s%%)', box[id][math.ceil(#box[id] / 2)], 1 / remaining * 100))
+    print(string.format('\31\207best guess: %d (%d%%)',box[id][math.ceil(#box[id] / 2)], 1 / remaining * 100))
 end
 
 -- ID obtaining helper function
